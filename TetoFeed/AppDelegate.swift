@@ -22,8 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let feedController =  FeedController(collectionViewLayout: UICollectionViewFlowLayout())
         let navigationController = UINavigationController(rootViewController: feedController)
         window?.rootViewController = navigationController
+
         
-        UINavigationBar.appearance().tintColor = UIColor(red: 51/255, green: 90/255, blue: 149/255, alpha: 1)
+        UINavigationBar.appearance().barTintColor = UIColor(red: 51/255, green: 90/255, blue: 149/255, alpha: 1)
         
         return true
     }
