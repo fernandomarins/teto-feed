@@ -64,7 +64,7 @@ class FeedCell: UICollectionViewCell {
     }()
     
     func setupViews() {
-        backgroundColor = UIColor.blue
+        backgroundColor = UIColor.white
         
         addSubview(nameLabel)
         addSubview(profileImageView)
