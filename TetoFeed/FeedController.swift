@@ -16,11 +16,8 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
         super.viewDidLoad()
         
         navigationItem.title = "Facebook Feed"
-        
         collectionView?.alwaysBounceVertical = true
-        
         collectionView?.backgroundColor = UIColor(white: 0.95, alpha: 1)
-        
         collectionView?.register(FeedCell.self, forCellWithReuseIdentifier: cellId)
     }
     
@@ -33,14 +30,14 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 60)
+        return CGSize(width: view.frame.width, height: 400)
     }
     
-//    func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-//        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
-//        
-//        collectionView?.collectionViewLayout.invalidateLayout()
-//    }
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        collectionView?.collectionViewLayout.invalidateLayout()
+    }
     
 }
 
