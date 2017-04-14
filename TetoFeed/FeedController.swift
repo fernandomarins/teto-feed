@@ -24,43 +24,9 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
         
         configureDatabase()
         
-//        ref.observe(.value, with: { snapshot in
-//            print(snapshot.value)
-//        })
-        
-        // Change line below to get data from Firebase
-        if let path = Bundle.main.path(forResource: "all_posts", ofType: "json") {
-            
-            do {
-                
-                let data = try(Data(contentsOf: URL(fileURLWithPath: path), options: NSData.ReadingOptions.mappedIfSafe))
-                
-                let jsonDictionary = try(JSONSerialization.jsonObject(with: data, options: .mutableContainers)) as? [String: Any]
-                
-                if let postsArray = jsonDictionary?["posts"] as? [[String: AnyObject]] {
-                    
-                    self.posts = [Post]()
-                    
-                    for postDictionary in postsArray {
-                        let post = Post()
-                        post.setValuesForKeys(postDictionary)
-                        self.posts.append(post)
-                    }
-                    
-                }
-                
-            } catch let err {
-                print(err)
-            }
-            
-        }
-        
         navigationItem.title = "Teto News"
-        
         collectionView?.alwaysBounceVertical = true
-        
         collectionView?.backgroundColor = UIColor(white: 0.95, alpha: 1)
-        
         collectionView?.register(FeedCell.self, forCellWithReuseIdentifier: cellId)
     }
     
@@ -76,16 +42,25 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
         // Listen for new messages in the Firebase database
         _refHandle = self.ref.child("posts").observe(.childAdded, with: { [weak self] (snapshot) -> Void in
             guard let strongSelf = self else { return }
+            
+            var items: [Post] = []
+            let snapshotValue = snapshot.value as! NSDictionary
             for item in snapshot.children {
-                
+                let post = Post()
+                post.name = snapshotValue["name"] as! String
+                post.profileImageName = snapshotValue["profileImageName"] as? String
+                post.statusText = snapshotValue["statusText"] as? String
+                post.statusImageName = snapshotValue["statusImageName"] as? String
+                items.append(post)
             }
+            print(items)
             strongSelf.messages.append(snapshot)
             strongSelf.collectionView?.insertItems(at: [IndexPath(row: strongSelf.messages.count-1, section: 0)])
         })
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print(messages)
+//        print(messages)
         return messages.count
     }
     
@@ -100,14 +75,15 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        if let statusText = posts[indexPath.item].statusText {
-            
-            let rect = NSString(string: statusText).boundingRect(with: CGSize(width: view.frame.width, height: 1000), options: NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin), attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)], context: nil)
-            
-            let knownHeight: CGFloat = 8 + 44 + 4 + 4 + 200 + 8 + 24 + 8 + 44
-            
-            return CGSize(width: view.frame.width, height: rect.height + knownHeight + 24)
-        }
+        // Uncomment this
+//        if let statusText = posts[indexPath.item].statusText {
+//            
+//            let rect = NSString(string: statusText).boundingRect(with: CGSize(width: view.frame.width, height: 1000), options: NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin), attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)], context: nil)
+//            
+//            let knownHeight: CGFloat = 8 + 44 + 4 + 4 + 200 + 8 + 24 + 8 + 44
+//            
+//            return CGSize(width: view.frame.width, height: rect.height + knownHeight + 24)
+//        }
         
         return CGSize(width: view.frame.width, height: 500)
     }
@@ -216,7 +192,6 @@ class FeedCell: UICollectionViewCell {
         didSet {
             
             if let name = post?.name {
-                
                 let attributedText = NSMutableAttributedString(string: name, attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 14)])
                 
                 nameLabel.attributedText = attributedText
