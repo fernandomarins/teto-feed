@@ -1,0 +1,6 @@
+framework module Pods_TetoFeed {
+  umbrella header "Pods-TetoFeed-umbrella.h"
+
+  export *
+  module * { export * }
+}
