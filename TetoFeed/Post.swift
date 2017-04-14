@@ -6,26 +6,41 @@
 //  Copyright © 2017 Fernando Augusto de Marins. All rights reserved.
 //
 
-import UIKit
+import Foundation
+import Firebase
 
-class Post: SafeJsonObject {
-    var name: String?
-    var profileImageName: String?
-    // For now, only the text and the image will come from the API
-    var statusText: String?
-    var statusImageName: String?
+struct Post {
     
-    override func setValue(_ value: Any?, forKey key: String) {
-        super.setValue(value, forKey: key)
+    let name: String
+    let profileImageName: String
+    let statusText: String
+    let statusImageName: String
+    let ref: FIRDatabaseReference?
+    
+    init(name: String, profileImageName: String, statusText: String, statusImageName: String) {
+        self.name = name
+        self.profileImageName = profileImageName
+        self.statusText = statusText
+        self.statusImageName = statusImageName
+        self.ref = nil
     }
-}
-
-class SafeJsonObject: NSObject {
-    override func setValue(_ value: Any?, forKey key: String) {
-        let selectorString = "set\(key.uppercased().characters.first!)\(String(key.characters.dropFirst())):"
-        let selector = Selector(selectorString)
-        if responds(to: selector) {
-            super.setValue(value, forKey: key)
-        }
+    
+    init(snapshot: FIRDataSnapshot) {
+        let snapshotValue = snapshot.value as! [String: AnyObject]
+        name = snapshotValue["name"] as! String
+        profileImageName = snapshotValue["profileImageName"] as! String
+        statusText = snapshotValue["statusText"] as! String
+        statusImageName = snapshotValue["statusImageName"] as! String
+        ref = snapshot.ref
     }
+    
+    func toAnyObject() -> Any {
+        return [
+            "name": name,
+            "profileImageName": profileImageName,
+            "statusText": statusText,
+            "statusImageName": statusImageName
+        ]
+    }
+    
 }

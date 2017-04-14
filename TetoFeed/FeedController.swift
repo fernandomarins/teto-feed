@@ -29,31 +29,31 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
 //        })
         
         // Change line below to get data from Firebase
-        if let path = Bundle.main.path(forResource: "all_posts", ofType: "json") {
-            
-            do {
-                
-                let data = try(Data(contentsOf: URL(fileURLWithPath: path), options: NSData.ReadingOptions.mappedIfSafe))
-                
-                let jsonDictionary = try(JSONSerialization.jsonObject(with: data, options: .mutableContainers)) as? [String: Any]
-                
-                if let postsArray = jsonDictionary?["posts"] as? [[String: AnyObject]] {
-                    
-                    self.posts = [Post]()
-                    
-                    for postDictionary in postsArray {
-                        let post = Post()
-                        post.setValuesForKeys(postDictionary)
-                        self.posts.append(post)
-                    }
-                    
-                }
-                
-            } catch let err {
-                print(err)
-            }
-            
-        }
+//        if let path = Bundle.main.path(forResource: "all_posts", ofType: "json") {
+//            
+//            do {
+//                
+//                let data = try(Data(contentsOf: URL(fileURLWithPath: path), options: NSData.ReadingOptions.mappedIfSafe))
+//                
+//                let jsonDictionary = try(JSONSerialization.jsonObject(with: data, options: .mutableContainers)) as? [String: Any]
+//                
+//                if let postsArray = jsonDictionary?["posts"] as? [[String: AnyObject]] {
+//                    
+//                    self.posts = [Post]()
+//                    
+//                    for postDictionary in postsArray {
+//                        let post = Post()
+//                        post.setValuesForKeys(postDictionary)
+//                        self.posts.append(post)
+//                    }
+//                    
+//                }
+//                
+//            } catch let err {
+//                print(err)
+//            }
+//            
+//        }
         
         navigationItem.title = "Teto News"
         
