@@ -16,7 +16,6 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     var posts = Posts.sharedInstance.posts
     
     var ref: FIRDatabaseReference!
-    var messages: [FIRDataSnapshot]! = []
     fileprivate var _refHandle: FIRDatabaseHandle?
     
     override func viewDidLoad() {
@@ -43,25 +42,28 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
         _refHandle = self.ref.child("posts").observe(.childAdded, with: { [weak self] (snapshot) -> Void in
             guard let strongSelf = self else { return }
             
-            var items: [Post] = []
-            let snapshotValue = snapshot.value as! NSDictionary
+            
             for item in snapshot.children {
-                let post = Post()
-                post.name = snapshotValue["name"] as! String
-                post.profileImageName = snapshotValue["profileImageName"] as? String
-                post.statusText = snapshotValue["statusText"] as? String
-                post.statusImageName = snapshotValue["statusImageName"] as? String
-                items.append(post)
+                let snapshotValue = snapshot.value as? NSDictionary
+                let name = snapshotValue?["name"] as? String
+                let profileImageName = snapshotValue?["profileImageName"] as? String
+                let statusText = snapshotValue?["statusText"] as? String
+                let statusImageName = snapshotValue?["statusImageName"] as? String
+                
+                let post = Post(name: name!, profileImageName: profileImageName!, statusText: statusText!, statusImageName: statusImageName!)
+//                let postT = Post(snapshot: item as! FIRDataSnapshot)
+                strongSelf.posts.append(post)
             }
-            print(items)
-            strongSelf.messages.append(snapshot)
-            strongSelf.collectionView?.insertItems(at: [IndexPath(row: strongSelf.messages.count-1, section: 0)])
+            
+            print(strongSelf.posts)
+            
+            strongSelf.collectionView?.insertItems(at: [IndexPath(row: strongSelf.posts.count-1, section: 0)])
+            
         })
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        print(messages)
-        return messages.count
+        return posts.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
