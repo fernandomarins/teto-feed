@@ -7,12 +7,17 @@
 //
 
 import UIKit
+import Firebase
 
 let cellId = "cellId"
 
 class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     var posts = Posts.sharedInstance.posts
+    
+    var ref: FIRDatabaseReference!
+    var messages: [FIRDataSnapshot]! = []
+    fileprivate var _refHandle: FIRDatabaseHandle?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,13 +49,30 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
             
         }
         
-        navigationItem.title = "Facebook Feed"
+        navigationItem.title = "Teto News"
         
         collectionView?.alwaysBounceVertical = true
         
         collectionView?.backgroundColor = UIColor(white: 0.95, alpha: 1)
         
         collectionView?.register(FeedCell.self, forCellWithReuseIdentifier: cellId)
+    }
+    
+    deinit {
+        if let refHandle = _refHandle {
+            self.ref.child("messages").removeObserver(withHandle: refHandle)
+        }
+    }
+    
+    // Code got from CodeLab Google
+    func configureDatabase() {
+        ref = FIRDatabase.database().reference()
+        // Listen for new messages in the Firebase database
+        _refHandle = self.ref.child("posts").observe(.childAdded, with: { [weak self] (snapshot) -> Void in
+            guard let strongSelf = self else { return }
+            strongSelf.messages.append(snapshot)
+            strongSelf.clientTable.insertRows(at: [IndexPath(row: strongSelf.messages.count-1, section: 0)], with: .automatic)
+        })
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

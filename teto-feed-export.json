@@ -1,0 +1,16 @@
+{
+  "posts" : {
+    "post-1" : {
+      "statusText" : "TETO",
+      "statusImageName" : "image-url"
+    },
+    "post-2" : {
+      "statusText" : "TETO",
+      "statusImageName" : "image-url"
+    },
+    "posta-3" : {
+      "statusText" : "TETO",
+      "statusImageName" : "image-url"
+    }
+  }
+}

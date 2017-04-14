@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -26,6 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITabBar.appearance().tintColor = UIColor.rgb(70, green: 146, blue: 250)
         
         application.statusBarStyle = .lightContent
+        
+        FIRApp.configure()
         
         // Override point for customization after application launch.
         return true
