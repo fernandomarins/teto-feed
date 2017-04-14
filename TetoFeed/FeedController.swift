@@ -10,56 +10,16 @@ import UIKit
 
 let cellId = "cellId"
 
-class Post: SafeJsonObject {
-    var name: String?
-    var profileImageName: String?
-    var statusText: String?
-    var statusImageName: String?
-    var numLikes: NSNumber?
-    var numComments: NSNumber?
-    
-    var location: Location?
-    
-    override func setValue(_ value: Any?, forKey key: String) {
-        if key == "location" {
-            location = Location()
-            location?.setValuesForKeys(value as! [String: AnyObject])
-        } else {
-            super.setValue(value, forKey: key)
-        }
-    }
-}
-
-class SafeJsonObject: NSObject {
-    
-    override func setValue(_ value: Any?, forKey key: String) {
-        let selectorString = "set\(key.uppercased().characters.first!)\(String(key.characters.dropFirst())):"
-        let selector = Selector(selectorString)
-        if responds(to: selector) {
-            super.setValue(value, forKey: key)
-        }
-    }
-    
-}
-
-class Location: NSObject {
-    var city: String?
-    var state: String?
-}
-
-class Feed: SafeJsonObject {
-    var feedUrl, title, link, author, type: String?
-}
+//class Feed: SafeJsonObject {
+//    var feedUrl, title, link, author, type: String?
+//}
 
 class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
-    var posts = [Post]()
+    var posts = Posts.sharedInstance.posts
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //        let samplePost = Post()
-        //        samplePost.performSelector(Selector("setName:"), withObject: "my name")
         
         if let path = Bundle.main.path(forResource: "all_posts", ofType: "json") {
             
@@ -86,48 +46,6 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
             }
             
         }
-        
-        //        let postMark = Post()
-        //        postMark.name = "Mark Zuckerberg"
-        //        postMark.location = Location()
-        //        postMark.location?.city = "San Francisco"
-        //        postMark.location?.state = "CA"
-        //        postMark.profileImageName = "zuckprofile"
-        //        postMark.statusText = "By giving people the power to share, we're making the world more transparent."
-        //        postMark.statusImageName = "zuckdog"
-        //        postMark.numLikes = 400
-        //        postMark.numComments = 123
-        //
-        //        let postSteve = Post()
-        //        postSteve.name = "Steve Jobs"
-        //        postSteve.location = Location()
-        //        postSteve.location?.city = "Cupertino"
-        //        postSteve.location?.state = "CA"
-        //        postSteve.profileImageName = "steve_profile"
-        //        postSteve.statusText = "Design is not just what it looks like and feels like. Design is how it works.\n\n" +
-        //            "Being the richest man in the cemetery doesn't matter to me. Going to bed at night saying we've done something wonderful, that's what matters to me.\n\n" +
-        //        "Sometimes when you innovate, you make mistakes. It is best to admit them quickly, and get on with improving your other innovations."
-        //        postSteve.statusImageName = "steve_status"
-        //        postSteve.numLikes = 1000
-        //        postSteve.numComments = 55
-        //
-        //        let postGandhi = Post()
-        //        postGandhi.name = "Mahatma Gandhi"
-        //        postGandhi.location = Location()
-        //        postGandhi.location?.city = "Porbandar"
-        //        postGandhi.location?.state = "India"
-        //        postGandhi.profileImageName = "gandhi_profile"
-        //        postGandhi.statusText = "Live as if you were to die tomorrow; learn as if you were to live forever.\n" +
-        //            "The weak can never forgive. Forgiveness is the attribute of the strong.\n" +
-        //        "Happiness is when what you think, what you say, and what you do are in harmony."
-        //        postGandhi.statusImageName = "gandhi_status"
-        //        postGandhi.numLikes = 333
-        //        postGandhi.numComments = 22
-        //
-        //
-        //        posts.append(postMark)
-        //        posts.append(postSteve)
-        //        posts.append(postGandhi)
         
         navigationItem.title = "Facebook Feed"
         
@@ -272,21 +190,6 @@ class FeedCell: UICollectionViewCell {
                 
                 let attributedText = NSMutableAttributedString(string: name, attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 14)])
                 
-                if let city = post?.location?.city, let state = post?.location?.state {
-                    attributedText.append(NSAttributedString(string: "\n\(city), \(state)  •  ", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 12), NSForegroundColorAttributeName:
-                        UIColor.rgb(155, green: 161, blue: 161)]))
-                    
-                    let paragraphStyle = NSMutableParagraphStyle()
-                    paragraphStyle.lineSpacing = 4
-                    
-                    attributedText.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, attributedText.string.characters.count))
-                    
-                    let attachment = NSTextAttachment()
-                    attachment.image = UIImage(named: "globe_small")
-                    attachment.bounds = CGRect(x: 0, y: -2, width: 12, height: 12)
-                    attributedText.append(NSAttributedString(attachment: attachment))
-                }
-                
                 nameLabel.attributedText = attributedText
                 
             }
@@ -301,10 +204,6 @@ class FeedCell: UICollectionViewCell {
             
             if let statusImageName = post?.statusImageName {
                 statusImageView.image = UIImage(named: statusImageName)
-            }
-            
-            if let numLikes = post?.numLikes, let numComments = post?.numComments {
-                likesCommentsLabel.text = "\(numLikes) Likes  \(numComments) Comments"
             }
             
         }
@@ -323,9 +222,6 @@ class FeedCell: UICollectionViewCell {
     let nameLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
-        
-        
-        
         return label
     }()
     
@@ -417,29 +313,6 @@ class FeedCell: UICollectionViewCell {
         
         addConstraintsWithFormat("V:[v0(44)]|", views: commentButton)
         addConstraintsWithFormat("V:[v0(44)]|", views: shareButton)
-    }
-    
-}
-
-extension UIColor {
-    
-    static func rgb(_ red: CGFloat, green: CGFloat, blue: CGFloat) -> UIColor {
-        return UIColor(red: red/255, green: green/255, blue: blue/255, alpha: 1)
-    }
-    
-}
-
-extension UIView {
-    
-    func addConstraintsWithFormat(_ format: String, views: UIView...) {
-        var viewsDictionary = [String: UIView]()
-        for (index, view) in views.enumerated() {
-            let key = "v\(index)"
-            viewsDictionary[key] = view
-            view.translatesAutoresizingMaskIntoConstraints = false
-        }
-        
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: format, options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
     }
     
 }
