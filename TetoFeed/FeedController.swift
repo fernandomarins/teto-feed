@@ -10,10 +10,6 @@ import UIKit
 
 let cellId = "cellId"
 
-//class Feed: SafeJsonObject {
-//    var feedUrl, title, link, author, type: String?
-//}
-
 class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     var posts = Posts.sharedInstance.posts
@@ -21,6 +17,7 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Change line below to get data from Firebase
         if let path = Bundle.main.path(forResource: "all_posts", ofType: "json") {
             
             do {
