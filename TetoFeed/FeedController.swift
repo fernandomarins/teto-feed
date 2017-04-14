@@ -22,6 +22,12 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureDatabase()
+        
+//        ref.observe(.value, with: { snapshot in
+//            print(snapshot.value)
+//        })
+        
         // Change line below to get data from Firebase
         if let path = Bundle.main.path(forResource: "all_posts", ofType: "json") {
             
@@ -60,7 +66,7 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     deinit {
         if let refHandle = _refHandle {
-            self.ref.child("messages").removeObserver(withHandle: refHandle)
+            self.ref.child("posts").removeObserver(withHandle: refHandle)
         }
     }
     
@@ -70,20 +76,24 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
         // Listen for new messages in the Firebase database
         _refHandle = self.ref.child("posts").observe(.childAdded, with: { [weak self] (snapshot) -> Void in
             guard let strongSelf = self else { return }
+            for item in snapshot.children {
+                
+            }
             strongSelf.messages.append(snapshot)
-            strongSelf.clientTable.insertRows(at: [IndexPath(row: strongSelf.messages.count-1, section: 0)], with: .automatic)
+            strongSelf.collectionView?.insertItems(at: [IndexPath(row: strongSelf.messages.count-1, section: 0)])
         })
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return posts.count
+        print(messages)
+        return messages.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let feedCell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! FeedCell
         
-        feedCell.post = posts[indexPath.item]
-        feedCell.feedController = self
+//        feedCell.post = messages[indexPath.item]
+//        feedCell.feedController = self
         
         return feedCell
     }

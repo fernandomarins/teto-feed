@@ -11,6 +11,7 @@ import UIKit
 class Post: SafeJsonObject {
     var name: String?
     var profileImageName: String?
+    // For now, only the text and the image will come from the API
     var statusText: String?
     var statusImageName: String?
     
