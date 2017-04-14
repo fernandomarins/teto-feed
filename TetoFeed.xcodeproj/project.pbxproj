@@ -11,6 +11,10 @@
 		5529DF651E9C45530040308E /* FeedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5529DF641E9C45530040308E /* FeedController.swift */; };
 		5529DF6A1E9C45530040308E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5529DF691E9C45530040308E /* Assets.xcassets */; };
 		5529DF6D1E9C45530040308E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5529DF6B1E9C45530040308E /* LaunchScreen.storyboard */; };
+		558355C31EA12150004E5DE6 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558355C21EA12150004E5DE6 /* CustomTabBarController.swift */; };
+		558355C51EA1216D004E5DE6 /* OtherControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558355C41EA1216D004E5DE6 /* OtherControllers.swift */; };
+		558355C81EA12189004E5DE6 /* single_post.json in Resources */ = {isa = PBXBuildFile; fileRef = 558355C61EA12189004E5DE6 /* single_post.json */; };
+		558355C91EA12189004E5DE6 /* all_posts.json in Resources */ = {isa = PBXBuildFile; fileRef = 558355C71EA12189004E5DE6 /* all_posts.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +24,10 @@
 		5529DF691E9C45530040308E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5529DF6C1E9C45530040308E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5529DF6E1E9C45530040308E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		558355C21EA12150004E5DE6 /* CustomTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
+		558355C41EA1216D004E5DE6 /* OtherControllers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtherControllers.swift; sourceTree = "<group>"; };
+		558355C61EA12189004E5DE6 /* single_post.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = single_post.json; sourceTree = "<group>"; };
+		558355C71EA12189004E5DE6 /* all_posts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = all_posts.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,7 +62,11 @@
 			children = (
 				5529DF621E9C45530040308E /* AppDelegate.swift */,
 				5529DF641E9C45530040308E /* FeedController.swift */,
+				558355C21EA12150004E5DE6 /* CustomTabBarController.swift */,
+				558355C41EA1216D004E5DE6 /* OtherControllers.swift */,
 				5529DF691E9C45530040308E /* Assets.xcassets */,
+				558355C61EA12189004E5DE6 /* single_post.json */,
+				558355C71EA12189004E5DE6 /* all_posts.json */,
 				5529DF6B1E9C45530040308E /* LaunchScreen.storyboard */,
 				5529DF6E1E9C45530040308E /* Info.plist */,
 			);
@@ -123,6 +135,8 @@
 			files = (
 				5529DF6D1E9C45530040308E /* LaunchScreen.storyboard in Resources */,
 				5529DF6A1E9C45530040308E /* Assets.xcassets in Resources */,
+				558355C81EA12189004E5DE6 /* single_post.json in Resources */,
+				558355C91EA12189004E5DE6 /* all_posts.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,6 +149,8 @@
 			files = (
 				5529DF651E9C45530040308E /* FeedController.swift in Sources */,
 				5529DF631E9C45530040308E /* AppDelegate.swift in Sources */,
+				558355C51EA1216D004E5DE6 /* OtherControllers.swift in Sources */,
+				558355C31EA12150004E5DE6 /* CustomTabBarController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
