@@ -13,54 +13,23 @@ let cellId = "cellId"
 
 class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
-    var posts = Posts.sharedInstance.posts
+//    var posts = Posts.sharedInstance.posts
+    var posts = [Post]()
     
     var ref: FIRDatabaseReference!
-    var messages: [FIRDataSnapshot]! = []
     fileprivate var _refHandle: FIRDatabaseHandle?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        collectionView?.delegate = self
+        collectionView?.dataSource = self
+        
         configureDatabase()
         
-//        ref.observe(.value, with: { snapshot in
-//            print(snapshot.value)
-//        })
-        
-        // Change line below to get data from Firebase
-//        if let path = Bundle.main.path(forResource: "all_posts", ofType: "json") {
-//            
-//            do {
-//                
-//                let data = try(Data(contentsOf: URL(fileURLWithPath: path), options: NSData.ReadingOptions.mappedIfSafe))
-//                
-//                let jsonDictionary = try(JSONSerialization.jsonObject(with: data, options: .mutableContainers)) as? [String: Any]
-//                
-//                if let postsArray = jsonDictionary?["posts"] as? [[String: AnyObject]] {
-//                    
-//                    self.posts = [Post]()
-//                    
-//                    for postDictionary in postsArray {
-//                        let post = Post()
-//                        post.setValuesForKeys(postDictionary)
-//                        self.posts.append(post)
-//                    }
-//                    
-//                }
-//                
-//            } catch let err {
-//                print(err)
-//            }
-//            
-//        }
-        
         navigationItem.title = "Teto News"
-        
         collectionView?.alwaysBounceVertical = true
-        
         collectionView?.backgroundColor = UIColor(white: 0.95, alpha: 1)
-        
         collectionView?.register(FeedCell.self, forCellWithReuseIdentifier: cellId)
     }
     
@@ -76,17 +45,22 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
         // Listen for new messages in the Firebase database
         _refHandle = self.ref.child("posts").observe(.childAdded, with: { [weak self] (snapshot) -> Void in
             guard let strongSelf = self else { return }
-            for item in snapshot.children {
-                
+//            for item in snapshot.children {
+//                let post = Post(snapshot: item as! FIRDataSnapshot)
+//                print(post)
+//                strongSelf.posts.append(post)
+//            }
+            
+            if strongSelf.posts.count == 1 {
+                strongSelf.collectionView?.reloadData()
+            } else {
+                strongSelf.collectionView?.insertItems(at: [IndexPath(row: strongSelf.posts.count - 1, section: 0)])
             }
-            strongSelf.messages.append(snapshot)
-            strongSelf.collectionView?.insertItems(at: [IndexPath(row: strongSelf.messages.count-1, section: 0)])
         })
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print(messages)
-        return messages.count
+        return posts.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -167,13 +141,10 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
                 let height = (self.view.frame.width / startingFrame.width) * startingFrame.height
                 
                 let y = self.view.frame.height / 2 - height / 2
-                
+ 
                 self.zoomImageView.frame = CGRect(x: 0, y: y, width: self.view.frame.width, height: height)
-                
                 self.blackBackgroundView.alpha = 1
-                
                 self.navBarCoverView.alpha = 1
-                
                 self.tabBarCoverView.alpha = 1
                 
             }, completion: nil)
