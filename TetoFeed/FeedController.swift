@@ -13,8 +13,7 @@ let cellId = "cellId"
 
 class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
-//    var posts = Posts.sharedInstance.posts
-    var posts = [Post]()
+    var posts = Posts.sharedInstance.posts
     
     var ref: FIRDatabaseReference!
     fileprivate var _refHandle: FIRDatabaseHandle?
