@@ -8,18 +8,20 @@
 
 import UIKit
 import Firebase
-
-let cellId = "cellId"
+import FirebaseDatabase
 
 class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     var posts = Posts.sharedInstance.posts
     
-    var ref: FIRDatabaseReference!
+    fileprivate var ref: FIRDatabaseReference!
     fileprivate var _refHandle: FIRDatabaseHandle?
+    fileprivate let cellId = "cellId"
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         collectionView?.delegate = self
         collectionView?.dataSource = self
 
@@ -37,8 +39,15 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
         }
     }
     
+    fileprivate func downloadData() {
+        let store = FIR
+//        let storage = FIRStorage.storage().reference(forURL: "gs://teto-feed.appspot.com")
+        let imageName = "profile-image.png"
+        let imageURL = storage.child(imageName)
+        }
+    
     // Code got from CodeLab Google
-    func configureDatabase() {
+    fileprivate func configureDatabase() {
         ref = FIRDatabase.database().reference()
         // Listen for new messages in the Firebase database
         _refHandle = self.ref.child("posts").observe(.childAdded, with: { [weak self] (snapshot) -> Void in
@@ -98,7 +107,7 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     var statusImageView: UIImageView?
     
-    func animateImageView(_ statusImageView: UIImageView) {
+    fileprivate func animateImageView(_ statusImageView: UIImageView) {
         self.statusImageView = statusImageView
         
         if let startingFrame = statusImageView.superview?.convert(statusImageView.frame, to: nil) {

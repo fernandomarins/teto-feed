@@ -7,6 +7,7 @@ target 'TetoFeed' do
 
   pod 'Firebase/Core'
   pod 'Firebase/Database'
+  pod 'Firebase/Storage'
 
   # Pods for TetoFeed
 

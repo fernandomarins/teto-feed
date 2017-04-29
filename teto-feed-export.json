@@ -1,20 +1,20 @@
 {
   "posts" : {
     "post-1" : {
-      "name" : "TETO",
-      "profileImageName" : "teto-img-url",
+      "name" : "TETO1",
+      "profileImageName" : "http://chile.techo.org/cis/monitor/images/ISOTIPO_RGB.svg",
       "statusText" : "TETO",
       "statusImageName" : "img-url"
     },
     "post-2" : {
-      "name" : "TETO",
-      "profileImageName" : "teto-img-url",
+      "name" : "TETO2",
+      "profileImageName" : "http://chile.techo.org/cis/monitor/images/ISOTIPO_RGB.svg",
       "statusText" : "TETO",
       "statusImageName" : "img-url"
     },
-    "posta-3" : {
-      "name" : "TETO",
-      "profileImageName" : "teto-img-url",
+    "post-3" : {
+      "name" : "TETO3",
+      "profileImageName" : "http://chile.techo.org/cis/monitor/images/ISOTIPO_RGB.svg",
       "statusText" : "TETO",
       "statusImageName" : "img-url"
     }
