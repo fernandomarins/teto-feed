@@ -55,8 +55,7 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
             
             print(strongSelf.posts)
             strongSelf.collectionView?.reloadData()
-        }
-    
+        })
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
