@@ -6,10 +6,11 @@
 //  Copyright © 2017 Fernando Augusto de Marins. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import Firebase
 
 struct Post {
+    
     let name: String?
     let profileImageName: String?
     let statusText: String?

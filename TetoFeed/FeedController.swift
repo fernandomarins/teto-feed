@@ -13,14 +13,17 @@ let cellId = "cellId"
 
 class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
-    var posts = Posts.sharedInstance.posts
+//    var posts = Posts.sharedInstance.posts
+    var posts = [Post]()
     
     var ref: FIRDatabaseReference!
     fileprivate var _refHandle: FIRDatabaseHandle?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        collectionView?.delegate = self
+        collectionView?.dataSource = self
+
         configureDatabase()
         
         navigationItem.title = "Teto News"
@@ -42,7 +45,6 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
         _refHandle = self.ref.child("posts").observe(.childAdded, with: { [weak self] (snapshot) -> Void in
             guard let strongSelf = self else { return }
             
-            
             for _ in snapshot.children {
                 let snapshotValue = snapshot.value as? NSDictionary
                 if let data = snapshotValue {
@@ -53,8 +55,8 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
             
             print(strongSelf.posts)
             strongSelf.collectionView?.reloadData()
-            
-        })
+        }
+    
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -140,13 +142,10 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
                 let height = (self.view.frame.width / startingFrame.width) * startingFrame.height
                 
                 let y = self.view.frame.height / 2 - height / 2
-                
+ 
                 self.zoomImageView.frame = CGRect(x: 0, y: y, width: self.view.frame.width, height: height)
-                
                 self.blackBackgroundView.alpha = 1
-                
                 self.navBarCoverView.alpha = 1
-                
                 self.tabBarCoverView.alpha = 1
                 
             }, completion: nil)

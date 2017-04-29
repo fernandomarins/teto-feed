@@ -1,16 +1,22 @@
 {
   "posts" : {
     "post-1" : {
+      "name" : "TETO",
+      "profileImageName" : "teto-img-url",
       "statusText" : "TETO",
-      "statusImageName" : "image-url"
+      "statusImageName" : "img-url"
     },
     "post-2" : {
+      "name" : "TETO",
+      "profileImageName" : "teto-img-url",
       "statusText" : "TETO",
-      "statusImageName" : "image-url"
+      "statusImageName" : "img-url"
     },
     "posta-3" : {
+      "name" : "TETO",
+      "profileImageName" : "teto-img-url",
       "statusText" : "TETO",
-      "statusImageName" : "image-url"
+      "statusImageName" : "img-url"
     }
   }
 }
