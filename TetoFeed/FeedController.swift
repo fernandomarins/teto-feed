@@ -258,8 +258,6 @@ class FeedCell: UICollectionViewCell {
         return view
     }()
     
-    let likeButton = FeedCell.buttonForTitle("Like", imageName: "like")
-    let commentButton: UIButton = FeedCell.buttonForTitle("Comment", imageName: "comment")
     let shareButton: UIButton = FeedCell.buttonForTitle("Share", imageName: "share")
     
     static func buttonForTitle(_ title: String, imageName: String) -> UIButton {
@@ -285,8 +283,6 @@ class FeedCell: UICollectionViewCell {
         addSubview(likesCommentsLabel)
         addSubview(dividerLineView)
         
-        addSubview(likeButton)
-        addSubview(commentButton)
         addSubview(shareButton)
         
         statusImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(FeedCell.animate as (FeedCell) -> () -> ())))
@@ -302,16 +298,11 @@ class FeedCell: UICollectionViewCell {
         addConstraintsWithFormat("H:|-12-[v0]-12-|", views: dividerLineView)
         
         //button constraints
-        addConstraintsWithFormat("H:|[v0(v2)][v1(v2)][v2]|", views: likeButton, commentButton, shareButton)
+        addConstraintsWithFormat("H:|-4-[v0]-4-|", views: shareButton)
         
         addConstraintsWithFormat("V:|-12-[v0]", views: nameLabel)
         
-        
-        
-        addConstraintsWithFormat("V:|-8-[v0(44)]-4-[v1]-4-[v2(200)]-8-[v3(24)]-8-[v4(0.4)][v5(44)]|", views: profileImageView, statusTextView, statusImageView, likesCommentsLabel, dividerLineView, likeButton)
-        
-        addConstraintsWithFormat("V:[v0(44)]|", views: commentButton)
-        addConstraintsWithFormat("V:[v0(44)]|", views: shareButton)
+        addConstraintsWithFormat("V:|-8-[v0(44)]-4-[v1]-4-[v2(200)]-8-[v3(24)]-8-[v4(0.4)][v5(44)]|", views: profileImageView, statusTextView, statusImageView, likesCommentsLabel, dividerLineView, shareButton)
     }
     
 }
