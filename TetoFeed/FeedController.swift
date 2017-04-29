@@ -43,21 +43,16 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
             guard let strongSelf = self else { return }
             
             
-            for item in snapshot.children {
+            for _ in snapshot.children {
                 let snapshotValue = snapshot.value as? NSDictionary
-                let name = snapshotValue?["name"] as? String
-                let profileImageName = snapshotValue?["profileImageName"] as? String
-                let statusText = snapshotValue?["statusText"] as? String
-                let statusImageName = snapshotValue?["statusImageName"] as? String
-                
-                let post = Post(name: name!, profileImageName: profileImageName!, statusText: statusText!, statusImageName: statusImageName!)
-//                let postT = Post(snapshot: item as! FIRDataSnapshot)
-                strongSelf.posts.append(post)
+                if let data = snapshotValue {
+                    let post = Post(data: data)
+                    strongSelf.posts.append(post)
+                }
             }
             
             print(strongSelf.posts)
-            
-            strongSelf.collectionView?.insertItems(at: [IndexPath(row: strongSelf.posts.count-1, section: 0)])
+            strongSelf.collectionView?.reloadData()
             
         })
     }
@@ -69,8 +64,8 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let feedCell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! FeedCell
         
-//        feedCell.post = messages[indexPath.item]
-//        feedCell.feedController = self
+        feedCell.post = posts[indexPath.item]
+        feedCell.feedController = self
         
         return feedCell
     }
@@ -78,14 +73,14 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         // Uncomment this
-//        if let statusText = posts[indexPath.item].statusText {
-//            
-//            let rect = NSString(string: statusText).boundingRect(with: CGSize(width: view.frame.width, height: 1000), options: NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin), attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)], context: nil)
-//            
-//            let knownHeight: CGFloat = 8 + 44 + 4 + 4 + 200 + 8 + 24 + 8 + 44
-//            
-//            return CGSize(width: view.frame.width, height: rect.height + knownHeight + 24)
-//        }
+        if let statusText = posts[indexPath.item].statusText {
+            
+            let rect = NSString(string: statusText).boundingRect(with: CGSize(width: view.frame.width, height: 1000), options: NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin), attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)], context: nil)
+            
+            let knownHeight: CGFloat = 8 + 44 + 4 + 4 + 200 + 8 + 24 + 8 + 44
+            
+            return CGSize(width: view.frame.width, height: rect.height + knownHeight + 24)
+        }
         
         return CGSize(width: view.frame.width, height: 500)
     }
