@@ -11,8 +11,6 @@ import Firebase
 import FirebaseDatabase
 import SDWebImage
 
-typealias PrefetchingDone = (UIImage?, Error?, SDImageCacheType, Bool, URL?) -> Void
-
 class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     var posts = Posts.sharedInstance.posts
@@ -50,15 +48,6 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     fileprivate func downloadData() {
         let url = "gs://teto-feed.appspot.com"
-//        let storageRef = FIRStorage.storage().reference(forURL: url)
-//        storageRef.downloadURL { (URL, error) -> Void in
-//            if (error != nil) {
-//                // Handle any errors
-//            } else {
-//                print(url)
-//            }
-//        }
-    
         let storage = FIRStorage.storage().reference(forURL: url)
         let imageName = "profile-image.png"
         let imageURL = storage.child(imageName)
@@ -100,7 +89,7 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
                 }
             }
             
-//            print(strongSelf.posts)
+            print(strongSelf.posts)
             strongSelf.collectionView?.reloadData()
         })
     }
@@ -119,24 +108,7 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-//        if let statusText = posts[indexPath.item].statusText,
-//            let statusImage = posts[indexPath.item].statusImageName {
-//            
-//            let textWidth = statusText.height(withConstrainedWidth: view.frame.width, font: UIFont.systemFont(ofSize: 14))
-//            let imageWidth = statusImage
-        
-//            let rect = NSString(string: statusText).boundingRect(with: CGSize(width: view.frame.width, height: 1000), options: NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin), attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)], context: nil)
-//            
-//            let knownHeight: CGFloat = 8 + 44 + 4 + 4 + 200 + 8 + 24 + 8 + 44
-//            
-//            return CGSize(width: view.frame.width, height: rect.height + knownHeight + 24)
-//        }
-        
-//        if let
-    
-//        let height = statusImageView?.frame.height + statusTextView.contentSize.height
-        
+
         return CGSize(width: view.frame.width, height: 268)
     }
     
@@ -146,106 +118,26 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
         collectionView?.collectionViewLayout.invalidateLayout()
     }
     
-    let zoomImageView = UIImageView()
-    let blackBackgroundView = UIView()
-    let navBarCoverView = UIView()
-    let tabBarCoverView = UIView()
-    
-    var statusImageView: UIImageView?
-    
-    fileprivate func animateImageView(_ statusImageView: UIImageView) {
-        self.statusImageView = statusImageView
-        
-        if let startingFrame = statusImageView.superview?.convert(statusImageView.frame, to: nil) {
-            
-            statusImageView.alpha = 0
-            
-            blackBackgroundView.frame = self.view.frame
-            blackBackgroundView.backgroundColor = UIColor.black
-            blackBackgroundView.alpha = 0
-            view.addSubview(blackBackgroundView)
-            
-            navBarCoverView.frame = CGRect(x: 0, y: 0, width: 1000, height: 20 + 44)
-            navBarCoverView.backgroundColor = UIColor.black
-            navBarCoverView.alpha = 0
-            
-            
-            
-            if let keyWindow = UIApplication.shared.keyWindow {
-                keyWindow.addSubview(navBarCoverView)
-                
-                tabBarCoverView.frame = CGRect(x: 0, y: keyWindow.frame.height - 49, width: 1000, height: 49)
-                tabBarCoverView.backgroundColor = UIColor.black
-                tabBarCoverView.alpha = 0
-                keyWindow.addSubview(tabBarCoverView)
-            }
-            
-            zoomImageView.backgroundColor = UIColor.red
-            zoomImageView.frame = startingFrame
-            zoomImageView.isUserInteractionEnabled = true
-            zoomImageView.image = statusImageView.image
-            zoomImageView.contentMode = .scaleAspectFill
-            zoomImageView.clipsToBounds = true
-            view.addSubview(zoomImageView)
-            
-            zoomImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(FeedController.zoomOut)))
-            
-            UIView.animate(withDuration: 0.75, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.5, options: .curveEaseOut, animations: { () -> Void in
-                
-                let height = (self.view.frame.width / startingFrame.width) * startingFrame.height
-                
-                let y = self.view.frame.height / 2 - height / 2
- 
-                self.zoomImageView.frame = CGRect(x: 0, y: y, width: self.view.frame.width, height: height)
-                self.blackBackgroundView.alpha = 1
-                self.navBarCoverView.alpha = 1
-                self.tabBarCoverView.alpha = 1
-                
-            }, completion: nil)
-            
-        }
-    }
-    
-    func zoomOut() {
-        if let startingFrame = statusImageView!.superview?.convert(statusImageView!.frame, to: nil) {
-            
-            UIView.animate(withDuration: 0.75, animations: { () -> Void in
-                self.zoomImageView.frame = startingFrame
-                
-                self.blackBackgroundView.alpha = 0
-                self.navBarCoverView.alpha = 0
-                self.tabBarCoverView.alpha = 0
-                
-            }, completion: { (didComplete) -> Void in
-                self.zoomImageView.removeFromSuperview()
-                self.blackBackgroundView.removeFromSuperview()
-                self.navBarCoverView.removeFromSuperview()
-                self.tabBarCoverView.removeFromSuperview()
-                self.statusImageView?.alpha = 1
-            })
-            
-        }
-    }
-    
 }
 
 class FeedCell: UICollectionViewCell {
     
     var feedController: FeedController?
-    
-    func animate() {
-        feedController?.animateImageView(statusImageView)
-    }
-    
+
     var post: Post? {
         didSet {
             
-            if let statusText = post?.statusText {
-                statusTextView.text = statusText
+            if let familyName = post?.familyName {
+                self.familyName.text = familyName
             }
             
-            if let statusImageName = post?.statusImageName {
-                statusImageView.sd_setImage(with: URL(string: statusImageName), placeholderImage: UIImage(named: "zuckprofile"))
+            if let familyText = post?.familyText {
+                self.familyText.text = familyText
+            }
+            
+            if let familyImage = post?.familyImage {
+                print(self.familyImage)
+                self.familyImage.sd_setImage(with: URL(string: familyImage), placeholderImage: UIImage(named: "fernando"))
             }
             
         }
@@ -261,19 +153,31 @@ class FeedCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    let statusTextView: UITextView = {
+    let familyName: UITextView = {
+        let textView = UITextView()
+        textView.font = UIFont.systemFont(ofSize: 30)
+        textView.textColor = UIColor.white
+        textView.isScrollEnabled = false
+        textView.isUserInteractionEnabled = false
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        return textView
+    }()
+    
+    let familyText: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.systemFont(ofSize: 14)
         textView.isScrollEnabled = false
         textView.isUserInteractionEnabled = false
+        textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
     
-    let statusImageView: UIImageView = {
+    let familyImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true
         imageView.isUserInteractionEnabled = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
@@ -301,14 +205,27 @@ class FeedCell: UICollectionViewCell {
     func setupViews() {
         backgroundColor = UIColor.white
         
-        addSubview(statusTextView)
-        addSubview(statusImageView)
+        addSubview(familyName)
+        addSubview(familyText)
+        addSubview(familyImage)
         
-        statusImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(FeedCell.animate as (FeedCell) -> () -> ())))
+        sendSubview(toBack: familyImage)
+
+        addConstraintsWithFormat("H:|-4-[v0]-4-|", views: familyName)
+        addConstraintsWithFormat("H:|-4-[v0]-4-|", views: familyText)
+        addConstraintsWithFormat("H:|-4-[v0]-4-|", views: familyImage)
         
-        addConstraintsWithFormat("H:|-4-[v0]-4-|", views: statusTextView)
-        addConstraintsWithFormat("H:|[v0]|", views: statusImageView)
-        addConstraintsWithFormat("V:|-8-[v0(44)]-4-[v1(200)]-4-|", views: statusTextView, statusImageView)
+        addConstraintsWithFormat("V:|-150-[v0]->=4-|", views: familyName)
+        addConstraintsWithFormat("V:|-160-[v0]->=4-|", views: familyText)
+        addConstraintsWithFormat("V:|-4-[v0(268)]-4-|", views: familyImage)
+
+        
+//        addConstraintsWithFormat("V:|-8-[v0(268)]-22-[v1]-2-[v2]-4-|", views: familyImage, familyName, familyText)
+
+        
+//        addConstraintsWithFormat("H:|-4-[v0]-4-|", views: statusTextView)
+//        addConstraintsWithFormat("H:|[v0]|", views: statusImageView)
+//        addConstraintsWithFormat("V:|-8-[v0(44)]-4-[v1(200)]-4-|", views: statusImageView, statusTextView)
     }
     
 }

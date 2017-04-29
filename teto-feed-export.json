@@ -1,22 +1,19 @@
 {
   "posts" : {
     "post-1" : {
-      "name" : "TETO1",
-      "profileImageName" : "https://ibb.co/ehbmo5",
-      "statusText" : "TETO",
-      "statusImageName" : "img-url"
+      "familyName" : "FERNANDO",
+      "familyText" : "A família tal...",
+      "familyImage" : "https://d1mtcmz3523xq0.cloudfront.net/assets/images/projects/techo/logo-on-white.png"
     },
     "post-2" : {
-      "name" : "TETO2",
-      "profileImageName" : "https://d1mtcmz3523xq0.cloudfront.net/assets/images/projects/techo/logo-on-white.png",
-      "statusText" : "TETO",
-      "statusImageName" : "img-url"
+      "familyName" : "LUCAS",
+      "familyText" : "A família tal...",
+      "familyImage" : "TETO"
     },
     "post-3" : {
-      "name" : "TETO3",
-      "profileImageName" : "https://d1mtcmz3523xq0.cloudfront.net/assets/images/projects/techo/logo-on-white.png",
-      "statusText" : "TETO",
-      "statusImageName" : "img-url"
+      "familyName" : "BRUNA",
+      "familyText" : "Eles começaram...",
+      "familyImage" : "TETO"
     }
   }
 }
