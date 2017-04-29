@@ -2,19 +2,19 @@
   "posts" : {
     "post-1" : {
       "name" : "TETO1",
-      "profileImageName" : "http://chile.techo.org/cis/monitor/images/ISOTIPO_RGB.svg",
+      "profileImageName" : "https://ibb.co/ehbmo5",
       "statusText" : "TETO",
       "statusImageName" : "img-url"
     },
     "post-2" : {
       "name" : "TETO2",
-      "profileImageName" : "http://chile.techo.org/cis/monitor/images/ISOTIPO_RGB.svg",
+      "profileImageName" : "https://d1mtcmz3523xq0.cloudfront.net/assets/images/projects/techo/logo-on-white.png",
       "statusText" : "TETO",
       "statusImageName" : "img-url"
     },
     "post-3" : {
       "name" : "TETO3",
-      "profileImageName" : "http://chile.techo.org/cis/monitor/images/ISOTIPO_RGB.svg",
+      "profileImageName" : "https://d1mtcmz3523xq0.cloudfront.net/assets/images/projects/techo/logo-on-white.png",
       "statusText" : "TETO",
       "statusImageName" : "img-url"
     }

@@ -9,6 +9,9 @@
 import UIKit
 import Firebase
 import FirebaseDatabase
+import SDWebImage
+
+typealias PrefetchingDone = (UIImage?, Error?, SDImageCacheType, Bool, URL?) -> Void
 
 class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
@@ -21,16 +24,22 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         collectionView?.delegate = self
         collectionView?.dataSource = self
 
         configureDatabase()
+        downloadData()
         
         navigationItem.title = "Teto News"
         collectionView?.alwaysBounceVertical = true
         collectionView?.backgroundColor = UIColor(white: 0.95, alpha: 1)
         collectionView?.register(FeedCell.self, forCellWithReuseIdentifier: cellId)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        posts.removeAll()
     }
     
     deinit {
@@ -40,11 +49,41 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     fileprivate func downloadData() {
-        let store = FIR
-//        let storage = FIRStorage.storage().reference(forURL: "gs://teto-feed.appspot.com")
+        let url = "gs://teto-feed.appspot.com"
+//        let storageRef = FIRStorage.storage().reference(forURL: url)
+//        storageRef.downloadURL { (URL, error) -> Void in
+//            if (error != nil) {
+//                // Handle any errors
+//            } else {
+//                print(url)
+//            }
+//        }
+    
+        let storage = FIRStorage.storage().reference(forURL: url)
         let imageName = "profile-image.png"
         let imageURL = storage.child(imageName)
+        
+        imageURL.downloadURL { (url, error) in
+            if error != nil {
+                print(error?.localizedDescription)
+                return
+            }
+            
+            URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
+                if error != nil {
+                    print(error)
+                }
+                
+                print(data)
+                
+                guard let imageData = UIImage(data: data!) else { return }
+                
+                DispatchQueue.main.async {
+//                    print(imageData)
+                }
+            }).resume()
         }
+    }
     
     // Code got from CodeLab Google
     fileprivate func configureDatabase() {
@@ -61,7 +100,7 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
                 }
             }
             
-            print(strongSelf.posts)
+//            print(strongSelf.posts)
             strongSelf.collectionView?.reloadData()
         })
     }
@@ -81,17 +120,24 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        // Uncomment this
-        if let statusText = posts[indexPath.item].statusText {
-            
-            let rect = NSString(string: statusText).boundingRect(with: CGSize(width: view.frame.width, height: 1000), options: NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin), attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)], context: nil)
-            
-            let knownHeight: CGFloat = 8 + 44 + 4 + 4 + 200 + 8 + 24 + 8 + 44
-            
-            return CGSize(width: view.frame.width, height: rect.height + knownHeight + 24)
-        }
+//        if let statusText = posts[indexPath.item].statusText,
+//            let statusImage = posts[indexPath.item].statusImageName {
+//            
+//            let textWidth = statusText.height(withConstrainedWidth: view.frame.width, font: UIFont.systemFont(ofSize: 14))
+//            let imageWidth = statusImage
         
-        return CGSize(width: view.frame.width, height: 500)
+//            let rect = NSString(string: statusText).boundingRect(with: CGSize(width: view.frame.width, height: 1000), options: NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin), attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)], context: nil)
+//            
+//            let knownHeight: CGFloat = 8 + 44 + 4 + 4 + 200 + 8 + 24 + 8 + 44
+//            
+//            return CGSize(width: view.frame.width, height: rect.height + knownHeight + 24)
+//        }
+        
+//        if let
+    
+//        let height = statusImageView?.frame.height + statusTextView.contentSize.height
+        
+        return CGSize(width: view.frame.width, height: 268)
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -194,23 +240,12 @@ class FeedCell: UICollectionViewCell {
     var post: Post? {
         didSet {
             
-            if let name = post?.name {
-                let attributedText = NSMutableAttributedString(string: name, attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 14)])
-                
-                nameLabel.attributedText = attributedText
-                
-            }
-            
             if let statusText = post?.statusText {
                 statusTextView.text = statusText
             }
             
-            if let profileImagename = post?.profileImageName {
-                profileImageView.image = UIImage(named: profileImagename)
-            }
-            
             if let statusImageName = post?.statusImageName {
-                statusImageView.image = UIImage(named: statusImageName)
+                statusImageView.sd_setImage(with: URL(string: statusImageName), placeholderImage: UIImage(named: "zuckprofile"))
             }
             
         }
@@ -226,22 +261,11 @@ class FeedCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    let nameLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 2
-        return label
-    }()
-    
-    let profileImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
-    
     let statusTextView: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.systemFont(ofSize: 14)
         textView.isScrollEnabled = false
+        textView.isUserInteractionEnabled = false
         return textView
     }()
     
@@ -251,13 +275,6 @@ class FeedCell: UICollectionViewCell {
         imageView.layer.masksToBounds = true
         imageView.isUserInteractionEnabled = true
         return imageView
-    }()
-    
-    let likesCommentsLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 12)
-        label.textColor = UIColor.rgb(155, green: 161, blue: 171)
-        return label
     }()
     
     let dividerLineView: UIView = {
@@ -284,33 +301,14 @@ class FeedCell: UICollectionViewCell {
     func setupViews() {
         backgroundColor = UIColor.white
         
-        addSubview(nameLabel)
-        addSubview(profileImageView)
         addSubview(statusTextView)
         addSubview(statusImageView)
-        addSubview(likesCommentsLabel)
-        addSubview(dividerLineView)
-        
-        addSubview(shareButton)
         
         statusImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(FeedCell.animate as (FeedCell) -> () -> ())))
         
-        addConstraintsWithFormat("H:|-8-[v0(44)]-8-[v1]|", views: profileImageView, nameLabel)
-        
         addConstraintsWithFormat("H:|-4-[v0]-4-|", views: statusTextView)
-        
         addConstraintsWithFormat("H:|[v0]|", views: statusImageView)
-        
-        addConstraintsWithFormat("H:|-12-[v0]|", views: likesCommentsLabel)
-        
-        addConstraintsWithFormat("H:|-12-[v0]-12-|", views: dividerLineView)
-        
-        //button constraints
-        addConstraintsWithFormat("H:|-4-[v0]-4-|", views: shareButton)
-        
-        addConstraintsWithFormat("V:|-12-[v0]", views: nameLabel)
-        
-        addConstraintsWithFormat("V:|-8-[v0(44)]-4-[v1]-4-[v2(200)]-8-[v3(24)]-8-[v4(0.4)][v5(44)]|", views: profileImageView, statusTextView, statusImageView, likesCommentsLabel, dividerLineView, shareButton)
+        addConstraintsWithFormat("V:|-8-[v0(44)]-4-[v1(200)]-4-|", views: statusTextView, statusImageView)
     }
     
 }

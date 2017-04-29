@@ -28,6 +28,7 @@
 		5529DF691E9C45530040308E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5529DF6C1E9C45530040308E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5529DF6E1E9C45530040308E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		552A4C8F1EB4E58D008BE702 /* TetoFeed-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TetoFeed-Bridging-Header.h"; sourceTree = "<group>"; };
 		553829D51EB4D4BE001C5A1B /* teto-feed-export.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "teto-feed-export.json"; sourceTree = SOURCE_ROOT; };
 		558355C21EA12150004E5DE6 /* CustomTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		558355C41EA1216D004E5DE6 /* OtherControllers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtherControllers.swift; sourceTree = "<group>"; };
@@ -77,6 +78,7 @@
 				553829D41EB4D494001C5A1B /* Controllers */,
 				553829D31EB4D488001C5A1B /* Model */,
 				558355D21EA12809004E5DE6 /* Extensions.swift */,
+				552A4C8F1EB4E58D008BE702 /* TetoFeed-Bridging-Header.h */,
 				553829D51EB4D4BE001C5A1B /* teto-feed-export.json */,
 				5529DF691E9C45530040308E /* Assets.xcassets */,
 				5529DF6B1E9C45530040308E /* LaunchScreen.storyboard */,
@@ -374,6 +376,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.FM.TetoFeed;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "TetoFeed/TetoFeed-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -388,6 +391,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.FM.TetoFeed;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "TetoFeed/TetoFeed-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

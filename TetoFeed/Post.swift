@@ -11,14 +11,10 @@ import Firebase
 
 struct Post {
     
-    let name: String?
-    let profileImageName: String?
     let statusText: String?
     let statusImageName: String?
     
     init(data: NSDictionary) {
-        name = data["name"] as? String
-        profileImageName = data["profileImageName"] as? String
         statusText = data["statusText"] as? String
         statusImageName = data["statusImageName"] as? String
     }
