@@ -155,9 +155,10 @@ class FeedCell: UICollectionViewCell {
     
     let familyName: UITextView = {
         let textView = UITextView()
-        textView.font = UIFont.systemFont(ofSize: 30)
-        textView.textColor = UIColor.white
+        textView.font = UIFont(name: "Roboto-Regular", size: 30)
+        textView.textColor = UIColor.black
         textView.isScrollEnabled = false
+        textView.backgroundColor = UIColor.clear
         textView.isUserInteractionEnabled = false
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
@@ -165,7 +166,8 @@ class FeedCell: UICollectionViewCell {
     
     let familyText: UITextView = {
         let textView = UITextView()
-        textView.font = UIFont.systemFont(ofSize: 14)
+        textView.font = UIFont(name: "Roboto-Regular", size: 12)
+        textView.backgroundColor = UIColor.clear
         textView.isScrollEnabled = false
         textView.isUserInteractionEnabled = false
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -209,14 +211,14 @@ class FeedCell: UICollectionViewCell {
         addSubview(familyText)
         addSubview(familyImage)
         
+        bringSubview(toFront: familyName)
         sendSubview(toBack: familyImage)
 
         addConstraintsWithFormat("H:|-4-[v0]-4-|", views: familyName)
         addConstraintsWithFormat("H:|-4-[v0]-4-|", views: familyText)
         addConstraintsWithFormat("H:|-4-[v0]-4-|", views: familyImage)
         
-        addConstraintsWithFormat("V:|-150-[v0]->=4-|", views: familyName)
-        addConstraintsWithFormat("V:|-160-[v0]->=4-|", views: familyText)
+        addConstraintsWithFormat("V:|-100-[v0(44)]-8-[v1]-4-|", views: familyName, familyText)
         addConstraintsWithFormat("V:|-4-[v0(268)]-4-|", views: familyImage)
 
         
