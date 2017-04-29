@@ -21,10 +21,9 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         collectionView?.delegate = self
         collectionView?.dataSource = self
-        
+
         configureDatabase()
         
         navigationItem.title = "Teto News"
@@ -45,18 +44,19 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
         // Listen for new messages in the Firebase database
         _refHandle = self.ref.child("posts").observe(.childAdded, with: { [weak self] (snapshot) -> Void in
             guard let strongSelf = self else { return }
-//            for item in snapshot.children {
-//                let post = Post(snapshot: item as! FIRDataSnapshot)
-//                print(post)
-//                strongSelf.posts.append(post)
-//            }
             
-            if strongSelf.posts.count == 1 {
-                strongSelf.collectionView?.reloadData()
-            } else {
-                strongSelf.collectionView?.insertItems(at: [IndexPath(row: strongSelf.posts.count - 1, section: 0)])
+            for _ in snapshot.children {
+                let snapshotValue = snapshot.value as? NSDictionary
+                if let data = snapshotValue {
+                    let post = Post(data: data)
+                    strongSelf.posts.append(post)
+                }
             }
-        })
+            
+            print(strongSelf.posts)
+            strongSelf.collectionView?.reloadData()
+        }
+    
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -66,14 +66,15 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let feedCell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! FeedCell
         
-//        feedCell.post = messages[indexPath.item]
-//        feedCell.feedController = self
+        feedCell.post = posts[indexPath.item]
+        feedCell.feedController = self
         
         return feedCell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
+        // Uncomment this
         if let statusText = posts[indexPath.item].statusText {
             
             let rect = NSString(string: statusText).boundingRect(with: CGSize(width: view.frame.width, height: 1000), options: NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin), attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)], context: nil)
@@ -187,7 +188,6 @@ class FeedCell: UICollectionViewCell {
         didSet {
             
             if let name = post?.name {
-                
                 let attributedText = NSMutableAttributedString(string: name, attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 14)])
                 
                 nameLabel.attributedText = attributedText
