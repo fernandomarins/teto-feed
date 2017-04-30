@@ -48,15 +48,13 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     fileprivate func configureDatabase() {
         ref = FIRDatabase.database().reference()
         // Listen for new messages in the Firebase database
-        _refHandle = self.ref.child("posts").observe(.childAdded, with: { [weak self] (snapshot) -> Void in
+        _refHandle = self.ref.child("posts").observe(.childAdded, with: { [weak self] (snapshot) in
             guard let strongSelf = self else { return }
             
-            for _ in snapshot.children {
-                let snapshotValue = snapshot.value as? NSDictionary
-                if let data = snapshotValue {
-                    let post = Post(data: data)
-                    strongSelf.posts.append(post)
-                }
+            let snapShotValue = snapshot.value as? NSDictionary
+            if let data = snapShotValue {
+                let post = Post(data: data)
+                strongSelf.posts.append(post)
             }
             
             strongSelf.collectionView?.reloadData()
@@ -197,6 +195,9 @@ class FeedCell: UICollectionViewCell {
         // Setting the text on top of the image
         familyName.layer.zPosition = 3
         familyText.layer.zPosition = 4
+        
+        familyImage.setShowActivityIndicator(true)
+        familyImage.setIndicatorStyle(.gray)
 
         addConstraintsWithFormat("H:|-4-[v0]-4-|", views: familyName)
         addConstraintsWithFormat("H:|-4-[v0]-4-|", views: familyText)
