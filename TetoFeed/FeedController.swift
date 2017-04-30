@@ -18,7 +18,6 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     fileprivate var ref: FIRDatabaseReference!
     fileprivate var _refHandle: FIRDatabaseHandle?
     fileprivate let cellId = "cellId"
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,13 +88,27 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
                 }
             }
             
-            print(strongSelf.posts)
             strongSelf.collectionView?.reloadData()
         })
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return posts.count
+    }
+    
+    func gradient(frame:CGRect) -> CAGradientLayer {
+        let layer = CAGradientLayer()
+        layer.frame = frame
+//        layer.startPoint = CGPoint(x: 0, y: 0.5)
+//        layer.endPoint = CGPoint(x: 1, y: 0.5)
+        layer.locations = [0.0, 1.0]
+        layer.colors = [UIColor.clear.cgColor, UIColor.black.cgColor]
+        return layer
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        cell.layer.insertSublayer(gradient(frame: cell.bounds), at:0)
+        cell.backgroundColor = UIColor.clear
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -156,7 +169,7 @@ class FeedCell: UICollectionViewCell {
     let familyName: UITextView = {
         let textView = UITextView()
         textView.font = UIFont(name: "Roboto-Regular", size: 30)
-        textView.textColor = UIColor.black
+        textView.textColor = UIColor.white
         textView.isScrollEnabled = false
         textView.backgroundColor = UIColor.clear
         textView.isUserInteractionEnabled = false
@@ -168,6 +181,7 @@ class FeedCell: UICollectionViewCell {
         let textView = UITextView()
         textView.font = UIFont(name: "Roboto-Regular", size: 12)
         textView.backgroundColor = UIColor.clear
+        textView.textColor = UIColor.white
         textView.isScrollEnabled = false
         textView.isUserInteractionEnabled = false
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -210,24 +224,16 @@ class FeedCell: UICollectionViewCell {
         addSubview(familyName)
         addSubview(familyText)
         addSubview(familyImage)
-        
+        bringSubview(toFront: familyText)
         bringSubview(toFront: familyName)
-        sendSubview(toBack: familyImage)
 
         addConstraintsWithFormat("H:|-4-[v0]-4-|", views: familyName)
         addConstraintsWithFormat("H:|-4-[v0]-4-|", views: familyText)
         addConstraintsWithFormat("H:|-4-[v0]-4-|", views: familyImage)
         
-        addConstraintsWithFormat("V:|-100-[v0(44)]-8-[v1]-4-|", views: familyName, familyText)
-        addConstraintsWithFormat("V:|-4-[v0(268)]-4-|", views: familyImage)
+        addConstraintsWithFormat("V:|-160-[v0(44)]-8-[v1]-4-|", views: familyName, familyText)
+        addConstraintsWithFormat("V:|-4-[v0(264)]-4-|", views: familyImage)
 
-        
-//        addConstraintsWithFormat("V:|-8-[v0(268)]-22-[v1]-2-[v2]-4-|", views: familyImage, familyName, familyText)
-
-        
-//        addConstraintsWithFormat("H:|-4-[v0]-4-|", views: statusTextView)
-//        addConstraintsWithFormat("H:|[v0]|", views: statusImageView)
-//        addConstraintsWithFormat("V:|-8-[v0(44)]-4-[v1(200)]-4-|", views: statusImageView, statusTextView)
     }
     
 }
