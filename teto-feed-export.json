@@ -3,17 +3,17 @@
     "post-1" : {
       "familyName" : "FERNANDO",
       "familyText" : "A família tal...",
-      "familyImage" : "https://d1mtcmz3523xq0.cloudfront.net/assets/images/projects/techo/logo-on-white.png"
+      "familyImage" : "https://firebasestorage.googleapis.com/v0/b/teto-feed.appspot.com/o/IMG_0090.jpg?alt=media&token=22c92e34-4d65-424d-9cba-619949dd4ea9"
     },
     "post-2" : {
       "familyName" : "LUCAS",
       "familyText" : "A família tal...",
-      "familyImage" : "TETO"
+      "familyImage" : "https://firebasestorage.googleapis.com/v0/b/teto-feed.appspot.com/o/Fernando.jpg?alt=media&token=6e97dce7-ddb5-41eb-acce-a291f66ab78f"
     },
     "post-3" : {
       "familyName" : "BRUNA",
       "familyText" : "Eles começaram...",
-      "familyImage" : "TETO"
+      "familyImage" : "https://firebasestorage.googleapis.com/v0/b/teto-feed.appspot.com/o/fer%20e%20fofa.jpg?alt=media&token=085c2f03-65f6-4fd0-9826-ff4f4bf2d7ec"
     }
   }
 }

@@ -21,10 +21,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window?.rootViewController = CustomTabBarController()
         
-        UINavigationBar.appearance().barTintColor = UIColor.rgb(12, green: 101, blue: 180)
+        UINavigationBar.appearance().barTintColor = UIColor.rgb(12, green: 101, blue: 180, alpha: 1)
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         
-        UITabBar.appearance().tintColor = UIColor.rgb(12, green: 101, blue: 180)
+        UITabBar.appearance().tintColor = UIColor.rgb(12, green: 101, blue: 180, alpha: 1)
         
         application.statusBarStyle = .lightContent
         

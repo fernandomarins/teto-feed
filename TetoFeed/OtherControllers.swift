@@ -18,7 +18,7 @@ class FriendRequestsController: UITableViewController {
         
         navigationItem.title = "Friend Requests"
         
-        tableView.separatorColor = UIColor.rgb(229, green: 231, blue: 235)
+        tableView.separatorColor = UIColor.rgb(229, green: 231, blue: 235, alpha: 1)
         tableView.sectionHeaderHeight = 26
         
         tableView.register(FriendRequestCell.self, forCellReuseIdentifier: FriendRequestsController.cellId)
@@ -91,7 +91,7 @@ class RequestHeader: UITableViewHeaderFooterView {
     
     let bottomBorderView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.rgb(229, green: 231, blue: 235)
+        view.backgroundColor = UIColor.rgb(229, green: 231, blue: 235, alpha: 1)
         return view
     }()
     
@@ -137,7 +137,7 @@ class FriendRequestCell: UITableViewCell {
         let button = UIButton()
         button.setTitle("Confirm", for: UIControlState())
         button.setTitleColor(UIColor.white, for: UIControlState())
-        button.backgroundColor = UIColor.rgb(87, green: 143, blue: 255)
+        button.backgroundColor = UIColor.rgb(87, green: 143, blue: 255, alpha: 1)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 10)
         button.layer.cornerRadius = 2
         return button

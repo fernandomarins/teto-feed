@@ -28,7 +28,7 @@ class CustomTabBarController: UITabBarController {
         
         let topBorder = CALayer()
         topBorder.frame = CGRect(x: 0, y: 0, width: 1000, height: 0.5)
-        topBorder.backgroundColor = UIColor.rgb(229, green: 231, blue: 235).cgColor
+        topBorder.backgroundColor = UIColor.rgb(229, green: 231, blue: 235, alpha: 1).cgColor
         
         tabBar.layer.addSublayer(topBorder)
         tabBar.clipsToBounds = true

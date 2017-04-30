@@ -24,14 +24,13 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
 
         collectionView?.delegate = self
         collectionView?.dataSource = self
-
-        configureDatabase()
-//        downloadData()
         
         navigationItem.title = "Teto News"
         collectionView?.alwaysBounceVertical = true
         collectionView?.backgroundColor = UIColor(white: 0.95, alpha: 1)
         collectionView?.register(FeedCell.self, forCellWithReuseIdentifier: cellId)
+        
+        configureDatabase()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,34 +41,6 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     deinit {
         if let refHandle = _refHandle {
             self.ref.child("posts").removeObserver(withHandle: refHandle)
-        }
-    }
-    
-    fileprivate func downloadData() {
-        let url = "gs://teto-feed.appspot.com"
-        let storage = FIRStorage.storage().reference(forURL: url)
-        let imageName = "profile-image.png"
-        let imageURL = storage.child(imageName)
-        
-        imageURL.downloadURL { (url, error) in
-            if error != nil {
-                print(error?.localizedDescription)
-                return
-            }
-            
-            URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
-                if error != nil {
-                    print(error)
-                }
-                
-                print(data)
-                
-                guard let imageData = UIImage(data: data!) else { return }
-                
-                DispatchQueue.main.async {
-//                    print(imageData)
-                }
-            }).resume()
         }
     }
     
@@ -99,8 +70,9 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     func gradient(frame: CGRect) -> CAGradientLayer {
         let layer = CAGradientLayer()
         layer.frame = frame
-        layer.locations = [0.4, 1.0]
+        layer.locations = [0.6, 1.0]
         layer.colors = [UIColor.clear.cgColor, UIColor.black.cgColor]
+        layer.opacity = 0.9
         return layer
     }
     
@@ -147,7 +119,7 @@ class FeedCell: UICollectionViewCell {
             }
             
             if let familyImage = post?.familyImage {
-                self.familyImage.sd_setImage(with: URL(string: familyImage), placeholderImage: UIImage(named: "fernando"))
+                self.familyImage.sd_setImage(with: URL(string: familyImage), placeholderImage: UIImage(named: "placeholder"))
             }
             
         }
@@ -166,7 +138,7 @@ class FeedCell: UICollectionViewCell {
     let familyName: UITextView = {
         let textView = UITextView()
         textView.font = UIFont(name: "Roboto-Regular", size: 30)
-        textView.textColor = UIColor.rgb(174, green: 174, blue: 172)
+        textView.textColor = UIColor.rgb(255, green: 255, blue: 255, alpha: 0.8)
         textView.isScrollEnabled = false
         textView.backgroundColor = UIColor.clear
         textView.isUserInteractionEnabled = false
@@ -178,7 +150,7 @@ class FeedCell: UICollectionViewCell {
         let textView = UITextView()
         textView.font = UIFont(name: "Roboto-Regular", size: 12)
         textView.backgroundColor = UIColor.clear
-        textView.textColor = UIColor.rgb(174, green: 174, blue: 172)
+        textView.textColor = UIColor.rgb(255, green: 255, blue: 255, alpha: 0.8)
         textView.isScrollEnabled = false
         textView.isUserInteractionEnabled = false
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -196,7 +168,7 @@ class FeedCell: UICollectionViewCell {
     
     let dividerLineView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.rgb(226, green: 228, blue: 232)
+        view.backgroundColor = UIColor.rgb(226, green: 228, blue: 232, alpha: 1)
         return view
     }()
     
@@ -205,7 +177,7 @@ class FeedCell: UICollectionViewCell {
     static func buttonForTitle(_ title: String, imageName: String) -> UIButton {
         let button = UIButton()
         button.setTitle(title, for: UIControlState())
-        button.setTitleColor(UIColor.rgb(143, green: 150, blue: 163), for: UIControlState())
+        button.setTitleColor(UIColor.rgb(143, green: 150, blue: 163, alpha: 1), for: UIControlState())
         
         button.setImage(UIImage(named: imageName), for: UIControlState())
         button.titleEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0)
@@ -217,7 +189,6 @@ class FeedCell: UICollectionViewCell {
     
     func setupViews() {
         backgroundColor = UIColor.white
-        
         
         addSubview(familyName)
         addSubview(familyText)
