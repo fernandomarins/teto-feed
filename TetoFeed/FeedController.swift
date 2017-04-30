@@ -8,7 +8,6 @@
 
 import UIKit
 import Firebase
-import FirebaseDatabase
 import SDWebImage
 
 class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
@@ -31,11 +30,6 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
         collectionView?.register(FeedCell.self, forCellWithReuseIdentifier: cellId)
         
         configureDatabase()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        posts.removeAll()
     }
     
     deinit {
@@ -68,9 +62,9 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     func gradient(frame: CGRect) -> CAGradientLayer {
         let layer = CAGradientLayer()
         layer.frame = frame
-        layer.locations = [0.6, 1.0]
-        layer.colors = [UIColor.clear.cgColor, UIColor.black.cgColor]
-        layer.opacity = 0.9
+        layer.locations = [0.0, 0.5, 1.0]
+        layer.colors = [UIColor.clear.cgColor, UIColor.rgb(127, green: 127, blue: 127, alpha: 1), UIColor.black.cgColor]
+        layer.opacity = 0.6
         return layer
     }
     
@@ -91,6 +85,12 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
         return CGSize(width: view.frame.width, height: 268)
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vc = DetailController()
+        vc.post = posts[indexPath.row]
+        navigationController?.pushViewController(vc, animated: false)
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -136,11 +136,10 @@ class FeedCell: UICollectionViewCell {
     let familyName: UITextView = {
         let textView = UITextView()
         textView.font = UIFont(name: "Roboto-Regular", size: 30)
-        textView.textColor = UIColor.rgb(255, green: 255, blue: 255, alpha: 0.8)
+        textView.textColor = UIColor.rgb(255, green: 255, blue: 255, alpha: 0.9)
         textView.isScrollEnabled = false
         textView.backgroundColor = UIColor.clear
         textView.isUserInteractionEnabled = false
-        textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
     
@@ -148,10 +147,9 @@ class FeedCell: UICollectionViewCell {
         let textView = UITextView()
         textView.font = UIFont(name: "Roboto-Regular", size: 12)
         textView.backgroundColor = UIColor.clear
-        textView.textColor = UIColor.rgb(255, green: 255, blue: 255, alpha: 0.8)
+        textView.textColor = UIColor.rgb(255, green: 255, blue: 255, alpha: 0.9)
         textView.isScrollEnabled = false
         textView.isUserInteractionEnabled = false
-        textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
     
@@ -160,7 +158,6 @@ class FeedCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true
         imageView.isUserInteractionEnabled = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     

@@ -12,6 +12,7 @@
 		5529DF6A1E9C45530040308E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5529DF691E9C45530040308E /* Assets.xcassets */; };
 		5529DF6D1E9C45530040308E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5529DF6B1E9C45530040308E /* LaunchScreen.storyboard */; };
 		553829D61EB4D4BE001C5A1B /* teto-feed-export.json in Resources */ = {isa = PBXBuildFile; fileRef = 553829D51EB4D4BE001C5A1B /* teto-feed-export.json */; };
+		5546993B1EB6408700C44662 /* DetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5546993A1EB6408700C44662 /* DetailController.swift */; };
 		558355C31EA12150004E5DE6 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558355C21EA12150004E5DE6 /* CustomTabBarController.swift */; };
 		558355C51EA1216D004E5DE6 /* OtherControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558355C41EA1216D004E5DE6 /* OtherControllers.swift */; };
 		558355CB1EA12423004E5DE6 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558355CA1EA12423004E5DE6 /* Post.swift */; };
@@ -31,6 +32,7 @@
 		5529DF6E1E9C45530040308E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		552A4C8F1EB4E58D008BE702 /* TetoFeed-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TetoFeed-Bridging-Header.h"; sourceTree = "<group>"; };
 		553829D51EB4D4BE001C5A1B /* teto-feed-export.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "teto-feed-export.json"; sourceTree = SOURCE_ROOT; };
+		5546993A1EB6408700C44662 /* DetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailController.swift; sourceTree = "<group>"; };
 		558355C21EA12150004E5DE6 /* CustomTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		558355C41EA1216D004E5DE6 /* OtherControllers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtherControllers.swift; sourceTree = "<group>"; };
 		558355CA1EA12423004E5DE6 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				5529DF641E9C45530040308E /* FeedController.swift */,
+				5546993A1EB6408700C44662 /* DetailController.swift */,
 				558355C21EA12150004E5DE6 /* CustomTabBarController.swift */,
 				558355C41EA1216D004E5DE6 /* OtherControllers.swift */,
 			);
@@ -253,6 +256,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5546993B1EB6408700C44662 /* DetailController.swift in Sources */,
 				5529DF651E9C45530040308E /* FeedController.swift in Sources */,
 				558355D11EA1261A004E5DE6 /* Posts.swift in Sources */,
 				5529DF631E9C45530040308E /* AppDelegate.swift in Sources */,
