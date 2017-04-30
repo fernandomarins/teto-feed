@@ -10,6 +10,8 @@ import UIKit
 import Firebase
 import SDWebImage
 
+var imageHeight = 0
+
 class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     var posts = Posts.sharedInstance.posts
@@ -17,6 +19,8 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     fileprivate var ref: FIRDatabaseReference!
     fileprivate var _refHandle: FIRDatabaseHandle?
     fileprivate let cellId = "cellId"
+    
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +34,11 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
         collectionView?.register(FeedCell.self, forCellWithReuseIdentifier: cellId)
         
         configureDatabase()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        imageHeight = Int(view.frame.width)
     }
     
     deinit {
@@ -83,14 +92,13 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-
-        return CGSize(width: view.frame.width, height: 268)
+        return CGSize(width: view.frame.width, height: view.frame.width)
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = DetailController()
         vc.post = posts[indexPath.row]
-        navigationController?.pushViewController(vc, animated: false)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -113,7 +121,16 @@ class FeedCell: UICollectionViewCell {
             }
             
             if let familyText = post?.familyText {
-                self.familyText.text = familyText
+                
+                // Cut the text to have a better interface
+                if familyText.characters.count > 160 {
+                    let index = familyText.index(familyText.startIndex, offsetBy: 160)
+                    let text = familyText.substring(to: index)
+                    self.familyText.text = text + "..."
+                } else {
+                    self.familyText.text = familyText
+                }
+
             }
             
             if let familyImage = post?.familyImage {
@@ -150,6 +167,7 @@ class FeedCell: UICollectionViewCell {
         textView.textColor = UIColor.rgb(255, green: 255, blue: 255, alpha: 0.9)
         textView.isScrollEnabled = false
         textView.isUserInteractionEnabled = false
+        textView.textContainer.maximumNumberOfLines = 3
         return textView
     }()
     
@@ -200,8 +218,8 @@ class FeedCell: UICollectionViewCell {
         addConstraintsWithFormat("H:|-4-[v0]-4-|", views: familyText)
         addConstraintsWithFormat("H:|[v0]|", views: familyImage)
         
-        addConstraintsWithFormat("V:|-160-[v0(44)]-8-[v1]-4-|", views: familyName, familyText)
-        addConstraintsWithFormat("V:|-4-[v0(260)]-4-|", views: familyImage)
+        addConstraintsWithFormat("V:|-180-[v0]-8-[v1]-4-|", views: familyName, familyText)
+        addConstraintsWithFormat("V:|[v0(\(imageHeight))]|", views: familyImage)
 
     }
     

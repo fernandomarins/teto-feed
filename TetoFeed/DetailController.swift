@@ -29,15 +29,15 @@ class DetailController: UIViewController, UIScrollViewDelegate {
 
     override func viewDidLoad() {
         navigationItem.title = "Info"
-        view.backgroundColor = UIColor.black
-        
+        view.backgroundColor = UIColor.white
+        navigationController?.navigationBar.tintColor = UIColor.white
         setupViews()
     }
     
     let familyName: UITextView = {
         let textView = UITextView()
-        textView.font = UIFont(name: "Roboto-Regular", size: 30)
-        textView.textColor = UIColor.rgb(255, green: 255, blue: 255, alpha: 0.9)
+        textView.font = UIFont(name: "Roboto-Regular", size: 20)
+        textView.textColor = UIColor.rgb(0, green: 0, blue: 0, alpha: 0.7)
         textView.isScrollEnabled = false
         textView.backgroundColor = UIColor.clear
         textView.isUserInteractionEnabled = false
@@ -48,7 +48,7 @@ class DetailController: UIViewController, UIScrollViewDelegate {
         let textView = UITextView()
         textView.font = UIFont(name: "Roboto-Regular", size: 12)
         textView.backgroundColor = UIColor.clear
-        textView.textColor = UIColor.rgb(255, green: 255, blue: 255, alpha: 0.9)
+        textView.textColor = UIColor.rgb(0, green: 0, blue: 0, alpha: 0.7)
         textView.isScrollEnabled = false
         textView.isUserInteractionEnabled = false
         return textView
@@ -69,19 +69,21 @@ class DetailController: UIViewController, UIScrollViewDelegate {
         view.addSubview(familyName)
         view.addSubview(familyText)
         view.addSubview(familyImage)
-
         
-        familyName.layer.zPosition = 3
-        familyText.layer.zPosition = 4
+        view.bringSubview(toFront: familyName)
+        view.bringSubview(toFront: familyText)
         
         familyImage.setShowActivityIndicator(true)
         familyImage.setIndicatorStyle(.gray)
         
-        view.addConstraintsWithFormat("H:|[v0]|", views: familyName)
+        view.addConstraintsWithFormat("H:|-8-[v0]-8-|", views: familyName)
         view.addConstraintsWithFormat("H:|[v0]|", views: familyImage)
-        view.addConstraintsWithFormat("H:|[v0]|", views: familyText)
+        view.addConstraintsWithFormat("H:|-8-[v0]-8-|", views: familyText)
         
-        view.addConstraintsWithFormat("V:|-4-[v0]-8-[v1(260)]-8-[v2]-|", views: familyName, familyImage, familyText)
+        if let navHeight = navigationController?.navigationBar.frame.height {
+            view.addConstraintsWithFormat("V:|-\(navHeight + 22)-[v0]-2-[v1(200)]-2-[v2]->=8-|", views: familyName, familyImage, familyText)
+        }
+        
     }
     
 }
