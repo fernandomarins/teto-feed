@@ -19,9 +19,7 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     fileprivate var ref: FIRDatabaseReference!
     fileprivate var _refHandle: FIRDatabaseHandle?
     fileprivate let cellId = "cellId"
-    
-
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -218,7 +216,7 @@ class FeedCell: UICollectionViewCell {
         addConstraintsWithFormat("H:|-4-[v0]-4-|", views: familyText)
         addConstraintsWithFormat("H:|[v0]|", views: familyImage)
         
-        addConstraintsWithFormat("V:|-180-[v0]-8-[v1]-4-|", views: familyName, familyText)
+        addConstraintsWithFormat("V:|->=180-[v0]-8-[v1]-4-|", views: familyName, familyText)
         addConstraintsWithFormat("V:|[v0(\(imageHeight))]|", views: familyImage)
 
     }
