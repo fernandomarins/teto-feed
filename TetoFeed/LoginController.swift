@@ -23,7 +23,7 @@ class LoginController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor.rgb(12, green: 101, blue: 180, alpha: 1)
+        view.backgroundColor = UIColor.white
         
         view.addSubview(inputsContainerView)
         view.addSubview(loginRegisterButton)
@@ -31,6 +31,11 @@ class LoginController: UIViewController {
         view.addSubview(loginRegisterSegmentedControl)
         
         sampleData()
+        
+        view.bringSubview(toFront: inputsContainerView)
+        view.bringSubview(toFront: loginRegisterButton)
+        view.bringSubview(toFront: profileImageView)
+        view.bringSubview(toFront: loginRegisterSegmentedControl)
         
         setupInputsContainerView()
         setupLoginRegisterButton()
@@ -44,7 +49,7 @@ class LoginController: UIViewController {
     }
     
     override var preferredStatusBarStyle : UIStatusBarStyle {
-        return .lightContent
+        return .default
     }
     
     //MARK: - Elements
@@ -52,9 +57,9 @@ class LoginController: UIViewController {
     // UIView
     let inputsContainerView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = UIColor.clear
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = 5
+        view.layer.cornerRadius = 3
         view.layer.masksToBounds = true
         return view
     }()
@@ -77,7 +82,7 @@ class LoginController: UIViewController {
     
     lazy var loginRegisterButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = UIColor.rgb(80, green: 101, blue: 161, alpha: 1)
+        button.backgroundColor = UIColor.rgb(16, green: 125, blue: 212, alpha: 1)
         button.setTitle("Register", for: UIControlState())
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(UIColor.white, for: UIControlState())
@@ -121,11 +126,10 @@ class LoginController: UIViewController {
     // UIImageView
     lazy var profileImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "gameofthrones_splash")
+        imageView.image = UIImage(named: "techo")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.isUserInteractionEnabled = true
-        
         return imageView
     }()
     
@@ -134,7 +138,7 @@ class LoginController: UIViewController {
     lazy var loginRegisterSegmentedControl: UISegmentedControl = {
         let sc = UISegmentedControl(items: ["Login", "Register"])
         sc.translatesAutoresizingMaskIntoConstraints = false
-        sc.tintColor = UIColor.white
+        sc.tintColor = UIColor.rgb(16, green: 125, blue: 212, alpha: 1)
         sc.selectedSegmentIndex = 1
         sc.addTarget(self, action: #selector(handleLoginRegisterChange), for: .valueChanged)
         return sc
