@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         
+//        window?.rootViewController = TabBarController()
         window?.rootViewController = LoginController()
         
         UINavigationBar.appearance().barTintColor = UIColor.rgb(12, green: 101, blue: 180, alpha: 1)

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AC8F1501A065D6421DA77673F3EB1113"
+               BlueprintIdentifier = "D244858B0084C507E1A588465296B49A"
                BuildableName = "Pods_TetoFeed.framework"
                BlueprintName = "Pods-TetoFeed"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "AC8F1501A065D6421DA77673F3EB1113"
+            BlueprintIdentifier = "D244858B0084C507E1A588465296B49A"
             BuildableName = "Pods_TetoFeed.framework"
             BlueprintName = "Pods-TetoFeed"
             ReferencedContainer = "container:Pods.xcodeproj">

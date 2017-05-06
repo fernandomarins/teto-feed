@@ -25,6 +25,8 @@ class FeedController: UIViewController, UICollectionViewDataSource, UICollection
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.title = "Teto News"
+        
         let layout = UICollectionViewFlowLayout()
         
         // Created this constant to make sure the collection view is not under the tab bar items

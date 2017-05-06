@@ -18,11 +18,11 @@ class TabBarController: UITabBarController {
         navigationController.title = "News Feed"
         navigationController.tabBarItem.image = UIImage(named: "news_feed_icon")
         
-        let moreNavController = UINavigationController(rootViewController: UIViewController())
-        moreNavController.title = "More"
-        moreNavController.tabBarItem.image = UIImage(named: "more_icon")
+        let settingsController = UINavigationController(rootViewController: SettingsController())
+        settingsController.title = "Settings"
+        settingsController.tabBarItem.image = UIImage(named: "more_icon")
         
-        viewControllers = [navigationController, moreNavController]
+        viewControllers = [navigationController, settingsController]
         
         tabBar.isTranslucent = false
         

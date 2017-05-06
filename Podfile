@@ -11,6 +11,7 @@ target 'TetoFeed' do
   pod 'Firebase/Storage'
   pod 'Firebase/Auth'
   pod 'SDWebImage', '~>3.8'
+  pod 'MBProgressHUD'
 
   # Pods for TetoFeed
 
