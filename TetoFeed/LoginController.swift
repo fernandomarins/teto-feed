@@ -56,9 +56,8 @@ class LoginController: UIViewController {
             
             //successfully logged in our user
             
-            let vc = FeedController()
-            let nc = UINavigationController(rootViewController: vc)
-            self.present(nc, animated: true, completion: nil)
+            let vc = TabBarController()
+            self.present(vc, animated: true, completion: nil)
             
         })
         

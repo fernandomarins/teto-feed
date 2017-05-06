@@ -27,7 +27,10 @@ class FeedController: UIViewController, UICollectionViewDataSource, UICollection
         
         let layout = UICollectionViewFlowLayout()
         
-        colView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
+        // Created this constant to make sure the collection view is not under the tab bar items
+        let navHeight = Int(tabBarController!.tabBar.frame.height)
+        
+        colView = UICollectionView(frame: CGRect(x: 0, y: 0, width: Int(view.frame.width), height: Int(view.frame.height) - navHeight), collectionViewLayout: layout)
         colView.delegate = self
         colView.dataSource = self
         colView.register(FeedCell.self, forCellWithReuseIdentifier: cellId)
@@ -40,7 +43,6 @@ class FeedController: UIViewController, UICollectionViewDataSource, UICollection
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         imageHeight = Int(view.frame.width)
     }
     
