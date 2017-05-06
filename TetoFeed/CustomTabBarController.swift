@@ -13,16 +13,16 @@ class CustomTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let feedController = FeedController(collectionViewLayout: UICollectionViewFlowLayout())
-        let navigationController = UINavigationController(rootViewController: feedController)
-        navigationController.title = "News Feed"
-        navigationController.tabBarItem.image = UIImage(named: "news_feed_icon")
+//        let feedController = FeedController(coder: UICollectionViewFlowLayout())
+//        let navigationController = UINavigationController(rootViewController: feedController)
+//        navigationController.title = "News Feed"
+//        navigationController.tabBarItem.image = UIImage(named: "news_feed_icon")
         
         let moreNavController = UINavigationController(rootViewController: UIViewController())
         moreNavController.title = "More"
         moreNavController.tabBarItem.image = UIImage(named: "more_icon")
         
-        viewControllers = [navigationController, moreNavController]
+//        viewControllers = [navigationController, moreNavController]
         
         tabBar.isTranslucent = false
         

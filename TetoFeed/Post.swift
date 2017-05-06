@@ -11,6 +11,7 @@ import Firebase
 
 struct Post {
     
+    // Send image with base64
     let familyName: String?
     let familyText: String?
     let familyImage: String?

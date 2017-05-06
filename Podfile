@@ -9,6 +9,7 @@ target 'TetoFeed' do
   pod 'Firebase/Core'
   pod 'Firebase/Database'
   pod 'Firebase/Storage'
+  pod 'Firebase/Auth'
   pod 'SDWebImage', '~>3.8'
 
   # Pods for TetoFeed

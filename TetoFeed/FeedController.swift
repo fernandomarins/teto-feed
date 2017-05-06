@@ -12,30 +12,35 @@ import SDWebImage
 
 var imageHeight = 0
 
-class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class FeedController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     var posts = Posts.sharedInstance.posts
     
     fileprivate var ref: FIRDatabaseReference!
     fileprivate var _refHandle: FIRDatabaseHandle?
     fileprivate let cellId = "cellId"
-        
+    
+    fileprivate var colView: UICollectionView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        collectionView?.delegate = self
-        collectionView?.dataSource = self
         
-        navigationItem.title = "Teto News"
-        collectionView?.alwaysBounceVertical = true
-        collectionView?.backgroundColor = UIColor(white: 0.95, alpha: 1)
-        collectionView?.register(FeedCell.self, forCellWithReuseIdentifier: cellId)
+        let layout = UICollectionViewFlowLayout()
+        
+        colView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
+        colView.delegate = self
+        colView.dataSource = self
+        colView.register(FeedCell.self, forCellWithReuseIdentifier: cellId)
+        colView.backgroundColor = UIColor.white
+        
+        view.addSubview(colView)
         
         configureDatabase()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
         imageHeight = Int(view.frame.width)
     }
     
@@ -58,11 +63,11 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
                 strongSelf.posts.append(post)
             }
             
-            strongSelf.collectionView?.reloadData()
+            strongSelf.colView?.reloadData()
         })
     }
     
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return posts.count
     }
     
@@ -75,12 +80,12 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
         return layer
     }
     
-    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         cell.layer.insertSublayer(gradient(frame: cell.bounds), at: 4)
         cell.backgroundColor = UIColor.clear
     }
     
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let feedCell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! FeedCell
         
         feedCell.post = posts[indexPath.item]
@@ -93,7 +98,7 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
         return CGSize(width: view.frame.width, height: view.frame.width)
     }
     
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = DetailController()
         vc.post = posts[indexPath.row]
         navigationController?.pushViewController(vc, animated: true)
@@ -102,7 +107,7 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
-        collectionView?.collectionViewLayout.invalidateLayout()
+        colView?.collectionViewLayout.invalidateLayout()
     }
     
 }
@@ -110,6 +115,8 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
 class FeedCell: UICollectionViewCell {
     
     var feedController: FeedController?
+    
+    let mwPhotos = NSMutableArray()
 
     var post: Post? {
         didSet {
@@ -128,7 +135,6 @@ class FeedCell: UICollectionViewCell {
                 } else {
                     self.familyText.text = familyText
                 }
-
             }
             
             if let familyImage = post?.familyImage {
